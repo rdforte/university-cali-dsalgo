@@ -1,22 +1,21 @@
 #include <iostream>
 
-long long get_fibonacci_huge_naive(long long n, long long m) {
-    if (n <= 1)
-        return n;
+long long get_fibonacci_huge_naive(long long n, long long m)
+{
+    int fib[n + 2];
+    fib[0] = 0;
+    fib[1] = 1;
 
-    long long previous = 0;
-    long long current  = 1;
-
-    for (long long i = 0; i < n - 1; ++i) {
-        long long tmp_previous = previous;
-        previous = current;
-        current = tmp_previous + current;
+    for (int i = 2; i <= n; i++)
+    {
+        fib[i] = (fib[i - 1] + fib[i - 2]) % m;
     }
 
-    return current % m;
+    return fib[n];
 }
 
-int main() {
+int main()
+{
     long long n, m;
     std::cin >> n >> m;
     std::cout << get_fibonacci_huge_naive(n, m) << '\n';
