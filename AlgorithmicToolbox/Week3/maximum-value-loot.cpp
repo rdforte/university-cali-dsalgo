@@ -1,38 +1,69 @@
 #include <iostream>
 #include <algorithm>
-#include <array>
+#include <vector>
+#include <iomanip>
 
-class WeightedValue
+class WeightedItem
 {
-    float weight;
-    float value;
+public:
+    double weight;
+    double value;
 
 public:
-    WeightedValue(float v, float w)
+    WeightedItem(double val, double wei)
     {
-        weight = w;
-        value = v;
+        weight = wei;
+        value = val;
     }
 
 public:
-    float getValuePerKG()
+    double getValuePerKG()
     {
         return value / weight;
     }
 };
 
-bool sortByHeighestValue(WeightedValue a, WeightedValue b)
+bool sortByHeighestValue(WeightedItem a, WeightedItem b)
 {
     return a.getValuePerKG() > b.getValuePerKG();
 }
 
 int main()
 {
-    std::array<WeightedValue, 3> arr = {WeightedValue(60, 20), WeightedValue(100, 50), WeightedValue(120, 30)};
-    std::sort(arr.begin(), arr.end(), sortByHeighestValue);
-    std::cout << arr[0].getValuePerKG() << "\n"
-              << arr[1].getValuePerKG() << "\n"
-              << arr[2].getValuePerKG();
+    double nItems, capacity;
+    std::cin >> nItems >> capacity;
+    std::vector<WeightedItem> weightedItems;
+
+    while (nItems--)
+    {
+        double val, wei;
+        std::cin >> val >> wei;
+        weightedItems.push_back(WeightedItem(val, wei));
+    }
+
+    std::sort(weightedItems.begin(), weightedItems.end(), sortByHeighestValue);
+
+    double value = 0;
+
+    for (int i = 0; i < weightedItems.size(); i++)
+    {
+        if (capacity == 0)
+            break;
+        WeightedItem item = weightedItems[i];
+        if (capacity >= item.weight)
+        {
+            value += item.value;
+            capacity -= item.weight;
+        }
+        else
+        {
+            double itemVal = item.getValuePerKG() * capacity;
+            value += itemVal;
+            capacity = 0;
+        }
+    }
+
+    std::cout << std::fixed << std::setprecision(4) << value; // set precision to 4 decimal places
 
     return 0;
 }
