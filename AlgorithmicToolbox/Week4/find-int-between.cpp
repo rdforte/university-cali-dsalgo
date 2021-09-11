@@ -15,7 +15,7 @@ int main()
     middle = calcMiddle(lower, upper);
     std::cout << middle << "\n";
 
-    char ls;
+    char ls; // larger | smaller
 
     while ((lower != middle || upper != middle))
     {
