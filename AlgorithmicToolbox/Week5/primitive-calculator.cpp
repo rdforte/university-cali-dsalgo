@@ -79,4 +79,13 @@ int main()
     {
         std::cout << positions[i].position << " " << positions[i].steps << " " << positions[i].comingFrom << " " << positions[i].operation << "\n";
     }
+
+    // What is left:
+    // 1. starting from the last item I need to map it backwards to the 'comingFrom' along with the operation.
+    // 2. put these values into a vector with the first operation ie: 1 at the start.
+    // 3. loop through the vector logging out the values.
+
+    /**
+     * NOTE: Look in notebook
+    */
 }
