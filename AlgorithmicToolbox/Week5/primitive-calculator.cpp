@@ -38,9 +38,7 @@ int main()
     for (int i = 2; i < positions.size(); i++)
     {
         Position minPosition = positions[i - operations[0]];
-        std::cout << "minPosition: " << minPosition.position << "\n";
         int minSteps = minPosition.steps + 1; // number of steps plus the current step in this case +1
-        std::cout << "minSteps: " << minSteps << "\n";
         int operation = 1;
         for (int op = 1; op < 3; op++)
         {
@@ -71,21 +69,29 @@ int main()
                 }
             }
         }
-        std::cout << "---------------------------------\n";
         positions[i] = Position(minPosition.position, minSteps, i, operation);
     }
 
-    for (int i = 1; i < positions.size(); i++)
+
+    Position lastPosition = positions[positions.size() -1];
+    std::vector<int> increments(lastPosition.steps + 1); // the steps is always 1 less than the total number because we start at 1 which is not included as a step.
+
+    increments[increments.size() - 1] = lastPosition.position;
+
+    int comingFrom = lastPosition.comingFrom;
+    int currentIndex = increments.size() - 1;
+
+    for (int i = positions.size() - 1; i >= 1; i--)
     {
-        std::cout << positions[i].position << " " << positions[i].steps << " " << positions[i].comingFrom << " " << positions[i].operation << "\n";
+        if (positions[i].position == comingFrom) {
+            increments[--currentIndex] = positions[i].position;
+            comingFrom = positions[i].comingFrom;
+        }
     }
 
-    // What is left:
-    // 1. starting from the last item I need to map it backwards to the 'comingFrom' along with the operation.
-    // 2. put these values into a vector with the first operation ie: 1 at the start.
-    // 3. loop through the vector logging out the values.
+    std::cout << lastPosition.steps << "\n";
 
-    /**
-     * NOTE: Look in notebook
-    */
+    for (int i = 0; i < increments.size(); i++) {
+        std::cout << increments[i] << "\n";
+    }
 }
